@@ -24,4 +24,21 @@ const shortenUrl = asyncHandler(async (req, res) => {
     );
 });
 
-export { shortenUrl };
+const redirectUrl = asyncHandler(async (req, res) => {
+
+    const { shortCode } = req.params;
+
+    const url = await prisma.url.findUnique({
+        where: {
+            shortCode
+        }
+    });
+
+    if (!url) {
+        throw new ApiError(404, "URL not found");
+    }
+
+    return res.redirect(url.longUrl);
+});
+
+export { shortenUrl, redirectUrl };

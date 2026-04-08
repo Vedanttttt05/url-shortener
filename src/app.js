@@ -21,7 +21,9 @@ app.get("/", (req, res) => {
 
 // api ROUTES
 import urlRoutes from "./routes/url.routes.js";
+import redirectRoutes from "./routes/redirect.routes.js";
 
+app.use("/", redirectRoutes);
 app.use("/api/v1/url", urlRoutes);
 
 // Error Middleware (must be last)
