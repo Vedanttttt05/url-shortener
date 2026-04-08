@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-
+import ApiResponse  from "./utils/apiResponse.js";
 dotenv.config();
 
 const app = express();
@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.send("URL Shortener API Running 🚀");
+    res.status(200).json(new ApiResponse(200, "Welcome to URL Shortener API", null) );
 });
 
 const PORT = process.env.PORT || 5000;
