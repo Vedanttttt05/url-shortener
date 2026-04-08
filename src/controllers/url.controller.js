@@ -2,7 +2,7 @@ import prisma from "../config/db.js";
 import generateShortCode from "../utils/generateShortCode.js";
 import ApiResponse from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-
+import redis from "../config/redis.js";
 const shortenUrl = asyncHandler(async (req, res) => {
     const { url } = req.body;
 
@@ -28,6 +28,12 @@ const redirectUrl = asyncHandler(async (req, res) => {
 
     const { shortCode } = req.params;
 
+    const cachedUrl = await redis.get(shortCode);
+
+    if (cachedUrl) {
+        return res.redirect(cachedUrl);
+    }
+
     const url = await prisma.url.findUnique({
         where: {
             shortCode
@@ -37,6 +43,7 @@ const redirectUrl = asyncHandler(async (req, res) => {
     if (!url) {
         throw new ApiError(404, "URL not found");
     }
+     await redis.set(shortCode, url.longUrl);
 
     return res.redirect(url.longUrl);
 });
