@@ -1,9 +1,11 @@
-import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
 import ApiResponse from "./utils/apiResponse.js";
 import errorMiddleware from "./middleware/error.middleware.js";
 
-dotenv.config();
+
+
 
 const app = express();
 
@@ -16,6 +18,11 @@ app.get("/", (req, res) => {
         new ApiResponse(200, "Welcome to URL Shortener API")
     );
 });
+
+// api ROUTES
+import urlRoutes from "./routes/url.routes.js";
+
+app.use("/api/v1/url", urlRoutes);
 
 // Error Middleware (must be last)
 app.use(errorMiddleware);
