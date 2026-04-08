@@ -44,3 +44,4 @@ dump.rdb
 # Docker (if you add later)
 .dockerignore
 docker-compose.override.yml
+/src/generated/prisma
