@@ -32,8 +32,8 @@ app.get("/redis-test", async (req, res) => {
   res.json({ value });
 });
 
-app.use("/", redirectRoutes);
 app.use("/api/v1/url", urlRoutes);
+app.use("/", redirectRoutes);
 
 // Error Middleware (must be last)
 app.use(errorMiddleware);
